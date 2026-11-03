@@ -1,69 +1,19 @@
 import Image from "next/image";
+import Link from "next/link";
+import { PageShell } from "./components/page-shell";
+import { contacts, services, whatsappUrl } from "./lib/site-data";
+import { WhatsAppIcon } from "./components/icons";
 
 export default function Home() {
-  return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
-  );
+  return <PageShell>
+    <section className="hero"><div className="container hero-grid"><div className="hero-copy"><p className="eyebrow">Home-based healthcare</p><h1>Compassionate care, in the comfort of your home.</h1><p className="hero-lede">Vital helps families discuss home-based healthcare and emergency services with a caring, practical team.</p><div className="hero-actions"><a className="button" href={`tel:${contacts[0].phone}`}>Discuss your care needs <span>↗</span></a><Link className="text-link" href="/services">Explore our services <span>→</span></Link></div><p className="hero-note">Call, email or message us to discuss care and availability.</p></div><div className="hero-photo"><Image src="/images/healthcare-worker.jpg" alt="Black African healthcare professional reviewing a care record" fill priority sizes="(max-width: 850px) 100vw, 50vw" /></div></div></section>
+    <section className="trust-strip"><div className="container trust-inner"><span>Care enquiries for</span><span>Doctor visits</span><span>Nursing care</span><span>Family support</span><span>Emergency services</span></div></section>
+    <section className="section intro-section"><div className="container split-intro"><div><p className="eyebrow">A familiar place to heal</p><h2>Healthcare should feel human.</h2></div><div className="intro-copy"><p>When care is needed, home can be the most reassuring place to begin. We bring clinical, practical and family support into one clear conversation.</p><Link className="text-link" href="/about">Learn about Vital <span>→</span></Link></div></div></section>
+    <section className="section services-section" id="services"><div className="container"><div className="section-heading"><div><p className="eyebrow">Our services</p><h2>Support for every stage of care.</h2></div><Link className="text-link" href="/services">View all services <span>→</span></Link></div><div className="service-grid">{services.slice(0, 6).map((service, i) => <Link href={`/services/${service[0]}`} className="service-card" key={service[0]}><span className="service-card-image"><Image src={service[3]} alt="" fill sizes="(max-width: 540px) 100vw, (max-width: 850px) 50vw, 33vw" /></span><span className="service-number">0{i + 1}</span><h3>{service[1]}</h3><p>{service[2]}</p><span className="card-arrow" aria-hidden="true">↗</span></Link>)}</div></div></section>
+    <section className="section care-section"><div className="container care-panel"><div className="care-photo"><Image src="/images/family-support.jpg" alt="Black African parent and child sharing a healthy routine at home" fill sizes="(max-width: 850px) 100vw, 50vw" /></div><div className="care-copy"><p className="eyebrow">Care at home</p><h2>Thoughtful support, made around real life.</h2><p>From nursing and caregiver support to physiotherapy and post-surgery care, our services help families find a considered next step.</p><div className="care-list"><span><b>01</b> Nursing and caregiver support</span><span><b>02</b> Post-surgery and palliative care</span><span><b>03</b> Family guidance and health education</span></div><Link className="button button-light" href="/contact">Talk to the team <span>↗</span></Link></div></div></section>
+    <section className="section photo-feature"><div className="container photo-feature-grid"><div className="feature-photo"><Image src="/images/family-support.jpg" alt="Black African parent and child sharing a healthy routine at home" fill sizes="(max-width: 850px) 100vw, 48vw" /></div><div><p className="eyebrow">Why Vital</p><h2>Care begins with listening.</h2><p className="feature-copy">A familiar setting can make care conversations easier for families. Vital brings together listed services, direct contact and clear next steps without making promises about outcomes or availability.</p><Link className="button" href="/contact">Start a conversation <span>↗</span></Link></div></div></section>
+    <section className="section faq-section"><div className="container split-faq"><div><p className="eyebrow">Questions, answered</p><h2>Let’s make the next step clearer.</h2><p>We are happy to talk through your care enquiry and explain what to expect.</p><Link className="button" href="/contact">Contact Vital <span>↗</span></Link></div><div className="faq-list"><details open><summary>How do I make an enquiry?<span>+</span></summary><p>Call Felix or Nelius directly, send an email, or use WhatsApp to discuss the service you have in mind.</p></details><details><summary>How is availability confirmed?<span>+</span></summary><p>Availability and arrangements are discussed directly with the team for each enquiry.</p></details><details><summary>Are all diagnostic services done at home?<span>+</span></summary><p>Arrangements vary by service. Please contact the team to confirm equipment and referral details for a specific diagnostic enquiry.</p></details></div></div></section>
+    <section className="contact-band"><div className="container contact-band-inner"><div><p className="eyebrow">Ready when you are</p><h2>Start with a conversation.</h2></div><div className="contact-band-actions"><a className="button button-light" href={`tel:${contacts[0].phone}`}>Call Felix <span>↗</span></a><a className="button button-outline-light" href={whatsappUrl()}>WhatsApp Felix <span>↗</span></a></div></div></section>
+    <a className="floating-whatsapp" href={whatsappUrl()} aria-label="Message Felix on WhatsApp"><WhatsAppIcon /></a>
+  </PageShell>;
 }
