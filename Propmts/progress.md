@@ -1,6 +1,6 @@
 # Vital website — progress
 
-Updated: 2 November 2026.
+Updated: 3 November 2026.
 
 ## Current stage
 
@@ -36,6 +36,16 @@ Approved redesign implemented and verified locally. The Next.js site is not depl
 - Next.js 16 dev-server review — the dynamic service route emitted an instant-shell URL-data diagnostic under Cache Components; adding `export const instant = false` removed the diagnostic and the final build passed. A feedback review URL was opened; nothing was submitted.
 - Replaced the default `app/favicon.ico` with a 48px favicon generated from the approved blue logo in the project folder.
 - Removed the former homepage “How it works” section, navigation link and anchor, and removed its requirement from prompt.md so it is not reintroduced.
+- Diagnosed the production-only CSS failure: the repository used Tailwind 4 with the Turbopack-only `@tailwindcss/turbopack` loader but had no tracked `postcss.config.mjs` or `@tailwindcss/postcss` plugin, so the deployed stylesheet omitted the site CSS.
+- Added the documented Tailwind 4 PostCSS plugin/configuration and explicit 24px dimensions to the WhatsApp SVG.
+
+### Production CSS incident verification
+
+- Initial `git status --short --branch` was clean (`main...origin/main`); no missing local configuration was hidden in untracked files.
+- `pnpm list --depth 0` confirmed Tailwind 4.3.3 and `@tailwindcss/turbopack` 4.3.3; no PostCSS config was present or tracked.
+- Before the fix, `https://vital-based.vercel.app` returned a 5,224-byte CSS asset with generic Tailwind output but no `.hero-grid`, `.floating-whatsapp` or `--navy` site rules.
+- After the fix, `pnpm build` passed and the local `pnpm start -p 3100` production server returned the CSS asset with HTTP 200, 18,367 bytes and the expected site rules. Rendered HTML includes `width="24" height="24"` on WhatsApp SVGs.
+- The public Vercel deployment still needs a corrected commit deployed before production can be marked fixed.
 
 ## Open production decisions
 
