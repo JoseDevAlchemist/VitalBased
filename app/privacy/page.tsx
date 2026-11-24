@@ -1,3 +1,25 @@
 import { PageShell } from "../components/page-shell";
+import { pageMetadata } from "../lib/metadata";
+import { email } from "../lib/site-data";
 
-export default function PrivacyPage() { return <PageShell><section className="page-hero"><div className="container narrow"><p className="eyebrow">Privacy</p><h1>A clear, simple privacy note.</h1><p>This website does not collect form submissions, create accounts or use a patient portal.</p></div></section><section className="section legal"><div className="container narrow"><h2>Information you choose to share</h2><p>If you call, email or message Vital, the information you provide is handled by the team to respond to your enquiry. Please do not send medical records or detailed sensitive health information through public channels.</p><h2>Website data</h2><p>This website does not include analytics, advertising trackers, payments or an online booking form. The phone, email and WhatsApp links open the relevant external service.</p><h2>Questions</h2><p>For questions about how your enquiry is handled, contact Vital at <a href="mailto:vital2HBC@gmail.com">vital2HBC@gmail.com</a>.</p></div></section></PageShell>; }
+export const metadata = pageMetadata("Privacy", "Read how Vital handles information you share when you call, email or send a WhatsApp message.");
+
+export default function PrivacyPage() {
+  return (
+    <PageShell>
+      <section className="section">
+        <div className="container editorial-grid">
+          <h1>Privacy</h1>
+          <div className="prose legal">
+            <h2>Information you share with Vital</h2>
+            <p>When you call, email or message Vital, the team uses the information you provide to respond to your enquiry. Please keep medical records and detailed health information out of initial messages.</p>
+            <h2>How the website works</h2>
+            <p>The website provides information and links to phone, email and WhatsApp. It has no patient portal, booking form, payments or analytics integration.</p>
+            <h2>Privacy questions</h2>
+            <p>Email <a className="text-link" href={`mailto:${email}`}>{email}</a> to ask how Vital handles your information.</p>
+          </div>
+        </div>
+      </section>
+    </PageShell>
+  );
+}

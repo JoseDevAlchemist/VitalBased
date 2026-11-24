@@ -1,7 +1,14 @@
 import type { NextConfig } from "next";
+import { serviceHref, services } from "./app/lib/site-data";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  async redirects() {
+    return services.map(({ slug }) => ({
+      source: `/services/${slug}`,
+      destination: serviceHref(slug),
+      permanent: true,
+    }));
+  },
   experimental: {
     agentFeedback: true,
   },

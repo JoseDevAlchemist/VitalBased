@@ -1,27 +1,101 @@
+export const siteName = "Vital Home Based Care & Emergency Services";
+export const email = "vital2HBC@gmail.com";
 export const contacts = [
-  { name: "Felix", phone: "+254712780902", display: "0712 780 902" },
-  { name: "Nelius", phone: "+254702613253", display: "0702 613 253" },
+  { phone: "+254712780902", display: "0712 780 902" },
+  { phone: "+254702613253", display: "0702 613 253" },
 ] as const;
+
+const whatsappMessage = "Hello VitalBased Homecare, I have an inquiry to make.";
+
+export function whatsappUrl(contact: (typeof contacts)[number]) {
+  return `https://wa.me/${contact.phone.slice(1)}?text=${encodeURIComponent(whatsappMessage)}`;
+}
+
+export const photos = {
+  hero: { src: "/images/home-nurse-elderly-patient.webp", alt: "A nurse supporting an older woman as she sits upright on her sofa" },
+  family: { src: "/images/family-support.webp", alt: "A woman and child washing their hands together at a kitchen sink" },
+} as const;
+
+export function serviceHref(slug: string) {
+  return `/services#${slug}`;
+}
+
+type Service = {
+  slug: string;
+  title: string;
+  description: string;
+  photoAlt: string;
+};
 
 export const services = [
-  ["doctors-home-visits", "Doctor’s home visits", "Care conversations and clinical visits arranged around the comfort of home.", "/images/healthcare-worker.jpg", "Black African healthcare professional reviewing a care record"],
-  ["24-hour-nursing-care", "24-hour nursing care", "Nursing support for families who need dependable care at home.", "/images/healthcare-worker.jpg", "Black African nurse reviewing care notes with medical equipment"],
-  ["laboratory-tests", "Laboratory tests", "Ask the team about available tests and collection arrangements.", "/images/healthcare-worker.jpg", "Black African healthcare professional preparing clinical notes"],
-  ["physiotherapy", "Physiotherapy services", "Support with mobility and rehabilitation needs in a familiar setting.", "/images/family-support.jpg", "Black African family supporting a healthy routine at home"],
-  ["diagnostic-services", "Diagnostic services", "Ultrasound, ECG, X-ray and echocardiography arrangements to confirm with the team.", "/images/healthcare-worker.jpg", "Black African healthcare professional preparing clinical notes"],
-  ["health-education", "Health education", "Clear, practical guidance to help families understand care needs.", "/images/family-support.jpg", "Black African parent and child sharing a healthy routine at home"],
-  ["maternal-neonatal-care", "Maternal and neonatal care", "Thoughtful support for mothers, newborns and their families.", "/images/maternal-neonatal.jpg", "Black African nurse caring for a newborn in a hospital nursery"],
-  ["palliative-care", "Palliative care", "Compassionate care focused on comfort, dignity and family support.", "/images/family-support.jpg", "Black African family sharing a supportive moment at home"],
-  ["basic-first-aid", "Basic first aid", "Initial first-aid support for children and adults. Enquire about availability.", "/images/healthcare-worker.jpg", "Black African healthcare worker holding a clinical tablet"],
-  ["outreach-services", "Outreach services", "Care initiatives that help bring health support closer to communities.", "/images/family-support.jpg", "Black African family spending time together at home"],
-  ["ambulance-services", "Ambulance services", "Ask about ambulance availability and service arrangements.", "/images/healthcare-worker.jpg", "Black African healthcare professional preparing clinical equipment"],
-  ["caregiver-support", "Caregiver support", "Practical support for families caring for a loved one at home.", "/images/family-support.jpg", "Black African parent and child supporting a healthy routine at home"],
-  ["post-surgery-care", "Post-surgery care", "A considered transition home after surgery, shaped around the care plan.", "/images/healthcare-worker.jpg", "Black African healthcare professional reviewing a care plan"],
-  ["medical-equipment", "Medical equipment", "Ask about available equipment, delivery and use arrangements.", "/images/healthcare-worker.jpg", "Black African healthcare professional using a clinical tablet"],
-] as const;
-
-export type Service = (typeof services)[number];
-
-export function whatsappUrl(contact: (typeof contacts)[number] = contacts[0]) {
-  return `https://wa.me/${contact.phone.replace("+", "")}?text=${encodeURIComponent(`Hello Vital, I would like to discuss my care needs with ${contact.name}.`)}`;
-}
+  {
+    slug: "doctors-home-visits", title: "Doctor’s home visits",
+    description: "Home consultations for new concerns and follow-up visits, subject to suitability and doctor availability.",
+    photoAlt: "A doctor talking with a patient at her dining table",
+  },
+  {
+    slug: "24-hour-nursing-care", title: "24-hour nursing care",
+    description: "Day and overnight nursing at home. Hours and scope depend on care needs and staff availability.",
+    photoAlt: "A nurse adjusting the cushion behind an older man in an armchair",
+  },
+  {
+    slug: "laboratory-tests", title: "Laboratory tests",
+    description: "Laboratory testing and sample collection. Collection arrangements depend on the test.",
+    photoAlt: "A laboratory technician handling capped sample vials",
+  },
+  {
+    slug: "physiotherapy", title: "Physiotherapy services",
+    description: "Support with movement and rehabilitation. Home sessions depend on suitability and availability.",
+    photoAlt: "A physiotherapist guiding a standing balance exercise",
+  },
+  {
+    slug: "diagnostic-services", title: "Diagnostic services",
+    description: "Ultrasound, ECG, X-ray and echocardiography. Locations and referral requirements vary by investigation.",
+    photoAlt: "A clinician using an ultrasound machine beside a patient",
+  },
+  {
+    slug: "health-education", title: "Health education",
+    description: "Practical information for patients and families about day-to-day care.",
+    photoAlt: "A nurse showing two adults a hand hygiene diagram",
+  },
+  {
+    slug: "maternal-neonatal-care", title: "Maternal and neonatal care",
+    description: "Care and support for mothers and newborns alongside existing maternity follow-up.",
+    photoAlt: "A midwife and mother looking at a swaddled newborn",
+  },
+  {
+    slug: "palliative-care", title: "Palliative care",
+    description: "Support for people living with serious illness and their families, with a focus on comfort and dignity.",
+    photoAlt: "A caregiver holding an older patient’s hand",
+  },
+  {
+    slug: "basic-first-aid", title: "Basic first aid",
+    description: "Basic first aid for children and adults, subject to availability.",
+    photoAlt: "A healthcare worker applying a bandage to a person’s wrist",
+  },
+  {
+    slug: "outreach-services", title: "Outreach services",
+    description: "Community health programmes. Topics and formats depend on the group and available support.",
+    photoAlt: "Healthcare workers speaking with people in a community hall",
+  },
+  {
+    slug: "ambulance-services", title: "Ambulance services",
+    description: "Ambulance transport, including planned patient transfers, subject to availability.",
+    photoAlt: "Two patient transport staff beside an ambulance",
+  },
+  {
+    slug: "caregiver-support", title: "Caregiver support",
+    description: "Practical support with everyday care at home. Tasks and schedules depend on the household’s needs and available support.",
+    photoAlt: "A caregiver helping an older woman fasten her cardigan",
+  },
+  {
+    slug: "post-surgery-care", title: "Post-surgery care",
+    description: "Support at home after surgery, guided by the patient’s discharge instructions and care needs.",
+    photoAlt: "A healthcare professional reviewing a discharge sheet with a patient at home",
+  },
+  {
+    slug: "medical-equipment", title: "Medical equipment",
+    description: "Help with medical equipment availability, supply and delivery.",
+    photoAlt: "A wheelchair, walking frame and adjustable bed in an equipment room",
+  },
+] as const satisfies readonly Service[];

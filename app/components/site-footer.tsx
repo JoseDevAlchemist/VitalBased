@@ -1,14 +1,37 @@
 import Image from "next/image";
 import Link from "next/link";
-import { contacts, whatsappUrl } from "@/app/lib/site-data";
+import { contacts, email, siteName, whatsappUrl } from "../lib/site-data";
 
 export function SiteFooter() {
-  return <footer className="site-footer">
-    <div className="container footer-grid">
-      <div className="footer-intro"><Link href="/" className="footer-brand"><Image src="/images/vital-logo.png" alt="Vital logo" width={48} height={44} /><span><strong>Vital</strong><small>Home Based Care &amp; Emergency Services</small></span></Link><p>Compassionate care, in the comfort of your home.</p></div>
-      <div><p className="eyebrow">Explore</p><div className="footer-links"><Link href="/about">About Vital</Link><Link href="/services">Our services</Link><Link href="/contact">Contact the team</Link><Link href="/privacy">Privacy</Link></div></div>
-      <div><p className="eyebrow">Talk to us</p><div className="footer-links"><a href={`tel:${contacts[0].phone}`}>Felix · {contacts[0].display}</a><a href={`tel:${contacts[1].phone}`}>Nelius · {contacts[1].display}</a><a href="mailto:vital2HBC@gmail.com">vital2HBC@gmail.com</a><a href={whatsappUrl()}>WhatsApp Felix ↗</a></div></div>
-    </div>
-    <div className="container footer-bottom"><span>© 2026 Vital Home Based Care &amp; Emergency Services</span><span>Direct enquiries by phone, WhatsApp or email</span></div>
-  </footer>;
+  return (
+    <footer className="site-footer">
+      <div className="container">
+        <div className="footer-grid">
+          <div>
+            <Link href="/" className="brand footer-brand">
+              <Image src="/images/vital-logo.png" alt="" width={52} height={46} />
+              <span><strong>Vital</strong><small>Home Based Care &amp; Emergency Services</small></span>
+            </Link>
+            <p>Home-based healthcare, family support and emergency services.</p>
+          </div>
+          <nav className="footer-links" aria-label="Footer">
+            <Link href="/about">About Vital</Link>
+            <Link href="/services">Our services</Link>
+            <Link href="/contact">Contact us</Link>
+            <Link href="/privacy">Privacy</Link>
+          </nav>
+          <div className="footer-links">
+            {contacts.map((contact) => (
+              <div className="footer-contact" key={contact.phone}>
+                <a href={`tel:${contact.phone}`} aria-label={`Call Vital on ${contact.display}`}>{contact.display}</a>
+                <a href={whatsappUrl(contact)} aria-label={`WhatsApp Vital on ${contact.display}`}>WhatsApp</a>
+              </div>
+            ))}
+            <a href={`mailto:${email}`}>{email}</a>
+          </div>
+        </div>
+        <div className="footer-bottom">© 2026 {siteName}</div>
+      </div>
+    </footer>
+  );
 }

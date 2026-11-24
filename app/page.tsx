@@ -1,19 +1,89 @@
 import Image from "next/image";
 import Link from "next/link";
 import { PageShell } from "./components/page-shell";
-import { contacts, services, whatsappUrl } from "./lib/site-data";
-import { WhatsAppIcon } from "./components/icons";
+import { ServiceCard } from "./components/service-card";
+import { PhoneIcon, WhatsAppIcon } from "./components/icons";
+import { contacts, photos, services, whatsappUrl } from "./lib/site-data";
+
+const featured = new Set([
+  "doctors-home-visits", "24-hour-nursing-care", "physiotherapy",
+  "diagnostic-services", "caregiver-support", "post-surgery-care",
+]);
+
+const questions = [
+  ["Who should I contact about care?", "Call, WhatsApp or email Vital to discuss the care you need."],
+  ["How do I check availability?", "Speak to the team to confirm which services are available and agree the arrangements before making plans."],
+  ["Can diagnostic tests be done at home?", "It depends on the investigation. Ask the team where it can take place, which equipment is needed and whether you need a referral."],
+];
 
 export default function Home() {
-  return <PageShell>
-    <section className="hero"><div className="container hero-grid"><div className="hero-copy"><p className="eyebrow">Home-based healthcare</p><h1>Compassionate care, in the comfort of your home.</h1><p className="hero-lede">Vital helps families discuss home-based healthcare and emergency services with a caring, practical team.</p><div className="hero-actions"><a className="button" href={`tel:${contacts[0].phone}`}>Discuss your care needs <span>↗</span></a><Link className="text-link" href="/services">Explore our services <span>→</span></Link></div><p className="hero-note">Call, email or message us to discuss care and availability.</p></div><div className="hero-photo"><Image src="/images/healthcare-worker.jpg" alt="Black African healthcare professional reviewing a care record" fill priority sizes="(max-width: 850px) 100vw, 50vw" /></div></div></section>
-    <section className="trust-strip"><div className="container trust-inner"><span>Care enquiries for</span><span>Doctor visits</span><span>Nursing care</span><span>Family support</span><span>Emergency services</span></div></section>
-    <section className="section intro-section"><div className="container split-intro"><div><p className="eyebrow">A familiar place to heal</p><h2>Healthcare should feel human.</h2></div><div className="intro-copy"><p>When care is needed, home can be the most reassuring place to begin. We bring clinical, practical and family support into one clear conversation.</p><Link className="text-link" href="/about">Learn about Vital <span>→</span></Link></div></div></section>
-    <section className="section services-section" id="services"><div className="container"><div className="section-heading"><div><p className="eyebrow">Our services</p><h2>Support for every stage of care.</h2></div><Link className="text-link" href="/services">View all services <span>→</span></Link></div><div className="service-grid">{services.slice(0, 6).map((service, i) => <Link href={`/services/${service[0]}`} className="service-card" key={service[0]}><span className="service-card-image"><Image src={service[3]} alt="" fill sizes="(max-width: 540px) 100vw, (max-width: 850px) 50vw, 33vw" /></span><span className="service-number">0{i + 1}</span><h3>{service[1]}</h3><p>{service[2]}</p><span className="card-arrow" aria-hidden="true">↗</span></Link>)}</div></div></section>
-    <section className="section care-section"><div className="container care-panel"><div className="care-photo"><Image src="/images/family-support.jpg" alt="Black African parent and child sharing a healthy routine at home" fill sizes="(max-width: 850px) 100vw, 50vw" /></div><div className="care-copy"><p className="eyebrow">Care at home</p><h2>Thoughtful support, made around real life.</h2><p>From nursing and caregiver support to physiotherapy and post-surgery care, our services help families find a considered next step.</p><div className="care-list"><span><b>01</b> Nursing and caregiver support</span><span><b>02</b> Post-surgery and palliative care</span><span><b>03</b> Family guidance and health education</span></div><Link className="button button-light" href="/contact">Talk to the team <span>↗</span></Link></div></div></section>
-    <section className="section photo-feature"><div className="container photo-feature-grid"><div className="feature-photo"><Image src="/images/family-support.jpg" alt="Black African parent and child sharing a healthy routine at home" fill sizes="(max-width: 850px) 100vw, 48vw" /></div><div><p className="eyebrow">Why Vital</p><h2>Care begins with listening.</h2><p className="feature-copy">A familiar setting can make care conversations easier for families. Vital brings together listed services, direct contact and clear next steps without making promises about outcomes or availability.</p><Link className="button" href="/contact">Start a conversation <span>↗</span></Link></div></div></section>
-    <section className="section faq-section"><div className="container split-faq"><div><p className="eyebrow">Questions, answered</p><h2>Let’s make the next step clearer.</h2><p>We are happy to talk through your care enquiry and explain what to expect.</p><Link className="button" href="/contact">Contact Vital <span>↗</span></Link></div><div className="faq-list"><details open><summary>How do I make an enquiry?<span>+</span></summary><p>Call Felix or Nelius directly, send an email, or use WhatsApp to discuss the service you have in mind.</p></details><details><summary>How is availability confirmed?<span>+</span></summary><p>Availability and arrangements are discussed directly with the team for each enquiry.</p></details><details><summary>Are all diagnostic services done at home?<span>+</span></summary><p>Arrangements vary by service. Please contact the team to confirm equipment and referral details for a specific diagnostic enquiry.</p></details></div></div></section>
-    <section className="contact-band"><div className="container contact-band-inner"><div><p className="eyebrow">Ready when you are</p><h2>Start with a conversation.</h2></div><div className="contact-band-actions"><a className="button button-light" href={`tel:${contacts[0].phone}`}>Call Felix <span>↗</span></a><a className="button button-outline-light" href={whatsappUrl()}>WhatsApp Felix <span>↗</span></a></div></div></section>
-    <a className="floating-whatsapp" href={whatsappUrl()} aria-label="Message Felix on WhatsApp"><WhatsAppIcon /></a>
-  </PageShell>;
+  return (
+    <PageShell>
+      <section className="hero">
+        <div className="container hero-grid">
+          <div className="hero-copy">
+            <h1>Professional healthcare at home</h1>
+            <p className="lede">Vital provides home nursing, doctor’s visits, rehabilitation and support for family caregivers. Speak to our team about the care you need.</p>
+            <div className="actions">
+              <Link className="button" href="/services">Explore our services</Link>
+              <Link className="text-link" href="/contact">Contact Vital</Link>
+            </div>
+          </div>
+          <div className="photo hero-photo">
+            <Image src={photos.hero.src} alt={photos.hero.alt} fill preload sizes="(max-width: 720px) 94vw, (max-width: 1400px) 50vw, 660px" />
+          </div>
+        </div>
+      </section>
+      <section className="section white service-preview">
+        <div className="container">
+          <h2>Our services</h2>
+          <ul className="catalogue-items">
+            {services.filter(({ slug }) => featured.has(slug)).map((service) => (
+              <li key={service.slug}><ServiceCard service={service} context="preview" /></li>
+            ))}
+          </ul>
+          <Link className="button" href="/services">View all services</Link>
+        </div>
+      </section>
+      <section className="section sage">
+        <div className="container family-grid">
+          <div className="photo family-photo">
+            <Image src={photos.family.src} alt={photos.family.alt} fill sizes="(max-width: 720px) 94vw, 46vw" />
+          </div>
+          <div className="family-copy">
+            <h2>About Vital</h2>
+            <p className="lede">We support patients who need care at home and relatives looking after someone close to them.</p>
+            <p>Our services include palliative care, post-surgery support and practical health education for families.</p>
+            <Link className="text-link" href="/about">How we work with families</Link>
+          </div>
+        </div>
+      </section>
+      <section className="section">
+        <div className="container editorial-grid">
+          <h2>Frequently asked questions</h2>
+          <div className="faq-list">
+            {questions.map(([question, answer], index) => (
+              <details key={question} open={index === 0}>
+                <summary>{question}<span aria-hidden="true" /></summary>
+                <p>{answer}</p>
+              </details>
+            ))}
+          </div>
+        </div>
+      </section>
+      <section className="contact-band">
+        <div className="container contact-band-inner">
+          <div>
+            <h2>Speak to our team</h2>
+            <p>We can discuss service arrangements and availability.</p>
+          </div>
+          <div className="actions">
+            <a className="button" href={`tel:${contacts[0].phone}`}><PhoneIcon /> Call us</a>
+            <a className="button secondary" href={whatsappUrl(contacts[0])}><WhatsAppIcon /> WhatsApp</a>
+            <Link className="text-link" href="/contact">All contact details</Link>
+          </div>
+        </div>
+      </section>
+    </PageShell>
+  );
 }

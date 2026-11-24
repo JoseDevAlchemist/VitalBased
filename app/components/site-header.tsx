@@ -2,17 +2,43 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { usePathname } from "next/navigation";
+import { useRef, useState } from "react";
+import { contacts, siteName } from "../lib/site-data";
+import { PhoneIcon } from "./icons";
 
 const links = [["Home", "/"], ["About", "/about"], ["Services", "/services"], ["Contact", "/contact"]];
 
 export function SiteHeader() {
+  const pathname = usePathname();
   const [open, setOpen] = useState(false);
-  return <header className="site-header">
-    <div className="container header-inner">
-      <Link href="/" className="brand" aria-label="Vital Home Based Care & Emergency Services home" onClick={() => setOpen(false)}><Image src="/images/vital-logo.png" alt="" width={46} height={42} priority /><span><strong>Vital</strong><small>Home Based Care</small></span></Link>
-      <button className="menu-button" type="button" aria-expanded={open} aria-controls="site-nav" onClick={() => setOpen(!open)}><span className="sr-only">{open ? "Close" : "Open"} navigation</span><i /><i /><i /></button>
-      <nav id="site-nav" className={`site-nav ${open ? "is-open" : ""}`} aria-label="Primary navigation">{links.map(([label, href]) => <Link key={href} href={href} onClick={() => setOpen(false)}>{label}</Link>)}<a className="button button-small" href="tel:+254712780902">Call to discuss care <span>↗</span></a></nav>
-    </div>
-  </header>;
+  const trigger = useRef<HTMLButtonElement>(null);
+
+  return (
+    <header className="site-header" onKeyDown={(event) => {
+      if (open && event.key === "Escape") {
+        setOpen(false);
+        trigger.current?.focus();
+      }
+    }}>
+      <a className="skip-link" href="#main-content">Skip to content</a>
+      <div className="container header-inner">
+        <Link href="/" className="brand" aria-label={`${siteName} home`} onClick={() => setOpen(false)}>
+          <Image src="/images/vital-logo.png" alt="" width={52} height={46} preload />
+          <span><strong>Vital</strong><small>Home Based Care &amp; Emergency Services</small></span>
+        </Link>
+        <button className="menu-button" ref={trigger} type="button" aria-expanded={open} aria-controls="site-nav" onClick={() => setOpen(!open)}>
+          {open ? "Close" : "Menu"}
+        </button>
+        <nav id="site-nav" className={`site-nav${open ? " is-open" : ""}`} aria-label="Primary">
+          {links.map(([label, href]) => {
+            const current = pathname === href;
+            const active = current || pathname.startsWith(`${href}/`);
+            return <Link key={href} href={href} aria-current={current ? "page" : active ? "location" : undefined} onClick={() => setOpen(false)}>{label}</Link>;
+          })}
+        </nav>
+        <a className="button header-call" href={`tel:${contacts[0].phone}`}><PhoneIcon /> Call Vital</a>
+      </div>
+    </header>
+  );
 }

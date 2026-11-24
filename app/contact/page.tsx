@@ -1,7 +1,41 @@
 import { PageShell } from "../components/page-shell";
 import { MailIcon, PhoneIcon, WhatsAppIcon } from "../components/icons";
-import { contacts, whatsappUrl } from "../lib/site-data";
+import { pageMetadata } from "../lib/metadata";
+import { contacts, email, whatsappUrl } from "../lib/site-data";
+
+export const metadata = pageMetadata("Contact Vital", "Contact Vital by phone, WhatsApp or email.");
 
 export default function ContactPage() {
-  return <PageShell><section className="contact-hero"><div className="container narrow"><p className="eyebrow">Contact Vital</p><h1>Let’s talk about your care needs.</h1><p>Contact our team to discuss care and availability.</p></div></section><section className="section contact-section"><div className="container contact-cards"><article className="contact-card"><div className="contact-card-head"><span className="contact-icon whatsapp-icon"><WhatsAppIcon /></span><div><p className="eyebrow">WhatsApp Felix</p><h2>Felix</h2></div></div><a className="contact-detail" href={whatsappUrl(contacts[0])}>{contacts[0].display}</a><a className="button contact-button whatsapp-button" href="https://wa.me/254712780902">Chat with Felix <span>↗</span></a></article><article className="contact-card"><div className="contact-card-head"><span className="contact-icon whatsapp-icon"><WhatsAppIcon /></span><div><p className="eyebrow">WhatsApp Nelius</p><h2>Nelius</h2></div></div><a className="contact-detail" href={whatsappUrl(contacts[1])}>{contacts[1].display}</a><a className="button contact-button whatsapp-button" href="https://wa.me/254702613253">Chat with Nelius <span>↗</span></a></article><article className="contact-card"><div className="contact-card-head"><span className="contact-icon call-icon"><PhoneIcon /></span><div><p className="eyebrow">Call us</p><h2>Talk to the team</h2></div></div><div className="contact-numbers"><a href="tel:+254712780902">{contacts[0].display}</a><a href="tel:+254702613253">{contacts[1].display}</a></div><a className="button contact-button" href="tel:+254712780902">Call now <span>↗</span></a></article><article className="contact-card"><div className="contact-card-head"><span className="contact-icon email-icon"><MailIcon /></span><div><p className="eyebrow">Email us</p><h2>Send an email</h2></div></div><a className="contact-detail email-detail" href="mailto:vital2HBC@gmail.com">vital2HBC@gmail.com</a><a className="button contact-button email-button" href="mailto:vital2HBC@gmail.com">Send email <span>↗</span></a></article></div></section></PageShell>;
+  return (
+    <PageShell>
+      <section className="section contact-section">
+        <div className="container contact-layout">
+          <div>
+            <h1>Contact us</h1>
+            <p className="lede">Call, WhatsApp or email us to discuss care or check availability.</p>
+          </div>
+          <div className="contact-directory">
+            {contacts.map((contact) => (
+              <section className="contact-row" key={contact.phone}>
+                <h2>
+                  <a className="contact-number" href={`tel:${contact.phone}`} aria-label={`Call Vital on ${contact.display}`}>
+                    <PhoneIcon className="contact-icon-blue" /> {contact.display}
+                  </a>
+                </h2>
+                <div className="actions">
+                  <a className="text-link" href={whatsappUrl(contact)} aria-label={`WhatsApp Vital on ${contact.display}`}>
+                    <WhatsAppIcon /> WhatsApp
+                  </a>
+                </div>
+              </section>
+            ))}
+            <section className="contact-row">
+              <h2>Email</h2>
+              <a className="text-link" href={`mailto:${email}`}><MailIcon className="contact-icon-blue" /> {email}</a>
+            </section>
+          </div>
+        </div>
+      </section>
+    </PageShell>
+  );
 }

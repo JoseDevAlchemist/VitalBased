@@ -1,7 +1,37 @@
 import Image from "next/image";
 import Link from "next/link";
 import { PageShell } from "../components/page-shell";
+import { pageMetadata } from "../lib/metadata";
+import { photos } from "../lib/site-data";
+
+export const metadata = pageMetadata("About Vital", "Learn how Vital supports patients receiving care at home and the relatives who care for them.");
 
 export default function AboutPage() {
-  return <PageShell><section className="page-hero"><div className="container narrow"><p className="eyebrow">About Vital</p><h1>Care that sees the whole person.</h1><p>Vital Home Based Care &amp; Emergency Services helps families explore home-based healthcare and emergency-service enquiries with clarity and compassion.</p></div></section><section className="section"><div className="container about-grid"><div className="about-photo"><Image src="/images/family-support.jpg" alt="Black African parent and child sharing a healthy routine at home" fill sizes="(max-width: 850px) 100vw, 50vw" /></div><div className="about-copy"><p className="eyebrow">Our approach</p><h2>Familiar surroundings. Thoughtful support.</h2><p>We believe care conversations should begin with listening. Our service range brings together clinical, practical and family support so you can ask the right questions and understand the next step.</p><p>Availability and service arrangements are confirmed directly with the team for each enquiry.</p><Link className="button" href="/contact">Talk to the team <span>↗</span></Link></div></div></section></PageShell>;
+  return (
+    <PageShell>
+      <section className="section">
+        <div className="container about-grid">
+          <div>
+            <h1>About Vital</h1>
+            <p className="lede">Vital Home Based Care &amp; Emergency Services provides healthcare and practical support for patients and families.</p>
+            <p>Some households need a single doctor’s visit or a test. Others need nursing over a longer period, support after discharge or help caring for a relative. Vital also lists ambulance services and community outreach.</p>
+            <Link className="text-link" href="/services">Browse our services</Link>
+          </div>
+          <div className="photo about-photo">
+            <Image src={photos.family.src} alt={photos.family.alt} fill preload sizes="(max-width: 720px) 94vw, 45vw" />
+          </div>
+        </div>
+      </section>
+      <section className="section sage">
+        <div className="container editorial-grid">
+          <h2>Planning care with families</h2>
+          <div className="prose">
+            <p>Tell us what the patient needs, what the family already manages at home and when support is needed. If there is an existing care plan or discharge guidance, mention it when you call.</p>
+            <p>Speak directly with the team to confirm availability and what can be arranged. For tests and diagnostics, check where the service takes place before making plans.</p>
+            <Link className="button" href="/contact">Contact Vital</Link>
+          </div>
+        </div>
+      </section>
+    </PageShell>
+  );
 }
